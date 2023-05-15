@@ -1,0 +1,170 @@
+%% plot_dive_spacing_PAT_sharkCTD.m
+% Sub-function of SalmonSharksCTD.m; plot histograms of spatial and temporal
+% dive spacing for recovered PAT tags.
+
+%% Compute distance (in km) and time (in hours) between successive profiles from recovered PAT tags.
+
+om_PAT = struct([]);
+
+for i = 1:length(toppID.pat)
+
+    if sum(pfl.PAT(i).DepthRange>= 24) > 1
+
+        lon = pfl.PAT(i).Longitude(pfl.PAT(i).DepthRange >= 24); 
+        lat = pfl.PAT(i).Latitude(pfl.PAT(i).DepthRange >= 24);
+        t = pfl.PAT(i).start_time(pfl.PAT(i).DepthRange >= 24);
+
+        ind_lon = lon <= -125 & lon >= -150; ind_lat = lat >= 50 & lat <= 60;
+        ind = ind_lon + ind_lat == 2;
+
+        if sum(ind) > 0
+
+            om_PAT(i).range = m_lldist(lon(ind),lat(ind));
+            om_PAT(i).dtime = hours(diff(t(ind))); % hours between profiles
+
+        else
+            
+            om_PAT(i).range = [];
+            om_PAT(i).dtime = [];
+
+        end
+
+    else
+        om_PAT(i).range = [];
+        om_PAT(i).dtime = [];
+    end
+
+end
+clear i
+clear ind*
+clear lat
+clear lon
+clear t
+
+range = vertcat(om_PAT.range);
+dtime = vertcat(om_PAT.dtime);
+
+clear om_PAT
+
+%% Define bins for histograms. Bins of 2.5 hrs and 2.5 km are used. 
+
+binned.Xedges = 0:2.5:30;
+binned.Yedges = 0:2.5:100;
+
+binned.N = histcounts2(dtime,range,binned.Xedges,binned.Yedges);
+
+%% Calculate mode and 50% percentile.
+
+stats.PAT.dtime.mode = mode(hours(roundn(dtime,-1)));
+stats.PAT.dtime.prc50 = prctile(hours(roundn(dtime,-1)),50);
+stats.PAT.dtime.sub = sum(dtime <= 24)/(length(dtime) + 1)*100;
+
+stats.PAT.range.mode = mode(roundn(range,-2));
+stats.PAT.range.prc50 = prctile(roundn(range,-2),50);
+stats.PAT.range.sub = sum(range <= spacing.mean_full_TD_km+spacing.std_full_TD_km)/(length(range)+1)*100;
+
+%% Plot spatial and temporal resolution of CTD profiles with limited extents.
+
+figure;
+
+%% Central heatmap.
+
+ax1 = subplot(3,3,[4 5 7 8]);
+
+imagesc(binned.Xedges,binned.Yedges,binned.N.');
+set(gca,'ydir','normal','FontSize',14);
+
+h = colorbar; 
+colormap(hot(10));  
+ylabel(h,'Number of Profiles','FontSize',16);
+caxis([0 10]);
+
+xlabel('Time Between Profiles (hr)'); ylabel('Distance Between Profiles (km)');
+xlim([0 30]); ylim([0 100]);
+xticks(0:5:30);
+
+hold on
+
+% submesoscale resolving
+plot([0 30],(spacing.mean_full_TD_km+spacing.std_full_TD_km)*ones(2,1),'r-','LineWidth',2) % full-depth Rossby radius of deformation
+plot([24 24],[0 100],'r-','LineWidth',2) % 24 hours
+
+% distribution statistics
+plot(hours(stats.PAT.dtime.prc50)*ones(2,1),[0 100],'k--','LineWidth',2); % 50 percentile temporal
+plot([0 30],stats.PAT.range.prc50*ones(2,1),'k--','LineWidth',2); % 50 percentile spatial
+
+p1 = get(gca,'Position');
+
+%% Temporal histogram.
+
+ax2 = subplot(3,3,1:2);
+
+histogram(dtime,binned.Xedges,'FaceColor',[0.7 0.7 0.7]);
+
+set(gca,'XTickLabel','','Box','Off','FontSize',14);
+ylabel('Number of Profiles','FontSize',16);
+axis tight; xlim([0 30]);
+
+hold on
+
+ylimit = ylim;
+
+% submesoscale resolving
+plot([24 24],ylimit,'r-','LineWidth',2); % 24 hours
+
+% distribution statistics
+plot(hours(stats.PAT.dtime.mode),ylimit(2),'ko','MarkerFaceColor','k'); % mode temporal
+plot(hours(stats.PAT.dtime.prc50)*ones(2,1),ylimit,'k--','LineWidth',2); % 50 percentile temporal
+
+p2 = get(gca,'Position'); p2(3) = p1(3);
+set(gca,'Position',p2);
+
+%% Spatial histogram.
+
+ax3 = subplot(3,3,[6 9]);
+
+histogram(range,binned.Yedges,'FaceColor',[0.7 0.7 0.7]);
+
+set(gca,'XTickLabel','','Box','Off','FontSize',14);
+if ylimit(2) < 20000
+    ylabel('Number of Profiles','FontSize',16)
+end
+axis tight; xlim([0 100]);
+
+hold on
+
+ylimit = ylim;
+
+% submesoscale resolving
+plot((spacing.mean_full_TD_km+spacing.std_full_TD_km)*ones(2,1),ylimit,'r-','LineWidth',2); % full-depth Rossby deformation radius
+
+% distribution statistics
+plot(stats.PAT.range.mode,ylimit(2),'ko','MarkerFaceColor','k'); % mode spatial
+plot(stats.PAT.range.prc50*ones(2,1),ylimit,'k--','LineWidth',2); % 50 percentile spatial
+
+p3 = get(gca,'Position'); p3(4) = p1(4); p3(1) = p3(1)-0.1;
+set(gca,'Position',p3);
+view(90,-90);
+
+pl = h.Position; pl(1) = pl(1)+0.3;
+set(h,'Position',pl);
+
+set(ax1,'Position',p1);
+
+%% Save
+
+cd([folder '/figures']);
+saveas(gcf,'dive_spacing_PAT.fig');
+exportgraphics(gcf,'dive_spacing_PAT.png','Resolution',300);
+
+close all
+
+%% Clear
+
+clear ax* 
+clear binned
+clear dtime
+clear h* 
+clear p1 p2 p3 pl
+clear range
+clear ylimit
