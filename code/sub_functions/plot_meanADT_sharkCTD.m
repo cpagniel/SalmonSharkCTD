@@ -28,31 +28,31 @@ hold on
 
 %% Plot ARGOS positions colored by eddy type.
 
-m_plot(argos.lon(argos.qual >= 1),argos.lat(argos.qual >= 1),'ko-','markersize',2,'markerfacecolor','k');
-m_plot(argos.lon(argos.qual >= 1 & argos.eddy.type.' == 1),argos.lat(argos.qual >= 1 & argos.eddy.type.' == 1),'ro','markersize',2,'markerfacecolor','r');
-m_plot(argos.lon(argos.qual >= 1 & argos.eddy.type.' == 0),argos.lat(argos.qual >= 1 & argos.eddy.type.' == 0),'bo','markersize',2,'markerfacecolor','b');
+m_plot(argos.lon(argos.qual >= 1),argos.lat(argos.qual >= 1),'ko-','markersize',5,'markerfacecolor','k');
+m_plot(argos.lon(argos.qual >= 1 & argos.eddy.type.' == 1),argos.lat(argos.qual >= 1 & argos.eddy.type.' == 1),'ro','markersize',5,'markerfacecolor','r');
+m_plot(argos.lon(argos.qual >= 1 & argos.eddy.type.' == 0),argos.lat(argos.qual >= 1 & argos.eddy.type.' == 0),'bo','markersize',5,'markerfacecolor','b');
 
 hold on
 
 %% Plot shark-collected CTD locations colored by eddy type.
 
-m_line(shark.corr.lon(isnan(shark.eddy.type)),shark.corr.lat(isnan(shark.eddy.type)),'marker','o','Color','k','linewi',2,'linest','none','markersize',4,'markerfacecolor','w');
-m_line(shark.corr.lon(shark.eddy.type == 1),shark.corr.lat(shark.eddy.type == 1),'marker','o','Color','r','linewi',2,'linest','none','markersize',4,'markerfacecolor','w');
-m_line(shark.corr.lon(shark.eddy.type == 0),shark.corr.lat(shark.eddy.type == 0),'marker','o','Color','b','linewi',2,'linest','none','markersize',4,'markerfacecolor','w');
+m_line(shark.corr.lon(isnan(shark.eddy.type)),shark.corr.lat(isnan(shark.eddy.type)),'marker','o','Color','k','linewi',3,'linest','none','markersize',7,'markerfacecolor','w');
+m_line(shark.corr.lon(shark.eddy.type == 1),shark.corr.lat(shark.eddy.type == 1),'marker','o','Color','r','linewi',3,'linest','none','markersize',7,'markerfacecolor','w');
+m_line(shark.corr.lon(shark.eddy.type == 0),shark.corr.lat(shark.eddy.type == 0),'marker','o','Color','b','linewi',3,'linest','none','markersize',7,'markerfacecolor','w');
 
 hold on
 
 %% Plot markers for legend.
 
-h1 = m_line(0,0,'marker','o','Color','k','linewi',2,'linest','none','markersize',6,'markerfacecolor','w');
-h2 = m_line(0,0,'marker','o','Color','r','linewi',2,'linest','none','markersize',6,'markerfacecolor','w');
-h3 = m_line(0,0,'marker','o','Color','b','linewi',2,'linest','none','markersize',6,'markerfacecolor','w');
+h1 = m_line(0,0,'marker','o','Color','k','linewi',3,'linest','none','markersize',7,'markerfacecolor','w');
+h2 = m_line(0,0,'marker','o','Color','r','linewi',3,'linest','none','markersize',7,'markerfacecolor','w');
+h3 = m_line(0,0,'marker','o','Color','b','linewi',3,'linest','none','markersize',7,'markerfacecolor','w');
 
 hold on
 
 %% Create grid.
 
-m_grid('linest','none','tickdir','out','box','fancy','fontsize',24);
+m_grid('linest','none','tickdir','out','box','fancy','fontsize',20);
 m_northarrow(-149,50.75,1,'type',2,'linewi',2);
 m_ruler([.72 .87],.11,2,'fontsize',12,'ticklength',0.01);
 
@@ -68,13 +68,13 @@ hold on
 
 %% Create legend.
 
-legend([h2,h3,h1],'ACE','CE','Outside of Eddy','Position',[0.6179 0.8128 0.1911 0.0631],'FontSize',10);
+legend([h2,h3,h1],'ACE','CE','Outside of Eddy','Position',[0.5581 0.7420 0.2536 0.1333],'FontSize',14);
 
 %% Save.
 
 cd([folder '/figures']);
-saveas(gcf,'meanADT.fig');
-exportgraphics(gcf,'meanADT.png','Resolution',300);
+saveas(gcf,'meanADT_larger.fig');
+exportgraphics(gcf,'meanADT_larger.png','Resolution',300);
 
 close all
 

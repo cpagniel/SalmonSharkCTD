@@ -75,7 +75,8 @@ imagesc(binned.Xedges,binned.Yedges,binned.N.');
 set(gca,'ydir','normal','FontSize',14);
 
 h = colorbar; 
-colormap(hot(10));  
+tmp = getPyPlot_cMap('afmhot',12);
+colormap([1, 1, 1; tmp(3:11,:)])
 ylabel(h,'Number of Profiles','FontSize',16);
 caxis([0 10]);
 
@@ -154,8 +155,8 @@ set(ax1,'Position',p1);
 %% Save
 
 cd([folder '/figures']);
-saveas(gcf,'dive_spacing_PAT.fig');
-exportgraphics(gcf,'dive_spacing_PAT.png','Resolution',300);
+saveas(gcf,'dive_spacing_PAT_light.fig');
+exportgraphics(gcf,'dive_spacing_PAT_light.png','Resolution',300);
 
 close all
 

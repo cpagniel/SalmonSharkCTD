@@ -23,17 +23,17 @@ m_gshhs_h('patch',[.7 .7 .7],'edgecolor','k');
 
 %% Plot profile locations from the World Ocean Database.
 
-h3 = m_line(wod.CTDSRDL.CTD.lon,wod.CTDSRDL.CTD.lat,'marker','o','color','k','linewi',2,'linest','none','markersize',4,'markerfacecolor','w');
+m_line(wod.CTDSRDL.CTD.lon(wod.CTDSRDL.CTD.lat >= 50.1),wod.CTDSRDL.CTD.lat(wod.CTDSRDL.CTD.lat >= 50.1),'marker','o','color','k','linewi',2,'linest','none','markersize',6,'markerfacecolor','w');
 
 hold on
 
-m_line(wod.CTDSRDL.PFL.lon,wod.CTDSRDL.PFL.lat,'marker','o','color','k','linewi',2,'linest','none','markersize',4,'markerfacecolor','w');
+h3 = m_line(wod.CTDSRDL.PFL.lon(wod.CTDSRDL.PFL.lat >= 50.1),wod.CTDSRDL.PFL.lat(wod.CTDSRDL.PFL.lat >= 50.1),'marker','o','color','k','linewi',2,'linest','none','markersize',6,'markerfacecolor','w');
 
 hold on
 
 %% Plot ARGOS locations from CTD-SRDL.
 
-h1 = m_plot(argos.lon(argos.qual >= 1),argos.lat(argos.qual >= 1),'ko-','markersize',2,'markerfacecolor','k');
+h1 = m_plot(argos.lon(argos.qual >= 1),argos.lat(argos.qual >= 1),'ko-','linewidth',2,'markersize',5,'markerfacecolor','k');
 
 hold on
 
@@ -41,7 +41,7 @@ for i = 1:length(shark.corr.datenum)
     if ~isnan(shark.corr.lon(i))
         dt = day(shark.corr.datetime(i) - shark.corr.datetime(1)) + 1;
 
-        h2(i) = m_line(shark.corr.lon(i),shark.corr.lat(i),'marker','o','Color',cmap(dt,:),'linewi',2,'linest','none','markersize',4,'markerfacecolor','w');
+        h2(i) = m_line(shark.corr.lon(i),shark.corr.lat(i),'marker','o','Color',cmap(dt,:),'linewi',3,'linest','none','markersize',7,'markerfacecolor','w');
 
         hold on
 
@@ -51,13 +51,13 @@ clear i
 
 %% Plot tagging location.
 
-h5 = m_plot(shark.raw.tagdeploy.lon,shark.raw.tagdeploy.lat,'marker','v','color','k','markersize',8,'markerfacecolor','w','linest','none','linewi',2);
+h5 = m_plot(shark.raw.tagdeploy.lon,shark.raw.tagdeploy.lat,'marker','v','color','k','markersize',9,'markerfacecolor','w','linest','none','linewi',2);
 
 hold on
 
 %% Create border.
 
-m_grid('linest','none','tickdir','out','box','fancy','fontsize',24);
+m_grid('linest','none','tickdir','out','box','fancy','fontsize',20);
 m_northarrow(-149,50.75,1,'type',2,'linewi',2);
 m_ruler([.72 .87],.11,2,'fontsize',12,'ticklength',0.01);
 
@@ -71,8 +71,8 @@ set(icons,'MarkerSize',8);
 %% Save.
 
 cd([folder '/figures']);
-saveas(gcf,'CTDSRDL_WOD_map.fig');
-exportgraphics(gcf,'CTDSRDL_WOD_map.png','Resolution',300)
+saveas(gcf,'CTDSRDL_WOD_map_largest.fig');
+exportgraphics(gcf,'CTDSRDL_WOD_map_largest.png','Resolution',300)
 
 close all
 

@@ -31,13 +31,16 @@ figure;
 
 ax1 = subplot(3,3,[4 5 7 8]);
 
-imagesc(binned.Xedges,binned.Yedges,binned.N);
+imagesc(binned.Xedges,binned.Yedges,binned.N.');
 set(gca,'ydir','normal','FontSize',14);
 
 h = colorbar; 
-colormap(hot(10)); 
+tmp = getPyPlot_cMap('afmhot',12);
+colormap([1, 1, 1; tmp(3:11,:)])
 ylabel(h,'Number of Profiles','FontSize',16);
 caxis([0 10]);
+
+clear tmp
 
 xlabel('Time Between Profiles (hr)'); ylabel('Distance Between Profiles (km)');
 xlim([0 30]); ylim([0 100]);
@@ -112,8 +115,8 @@ set(ax1,'Position',p1);
 %% Save.
 
 cd([folder '/figures']);
-saveas(gcf,'dive_spacing_CTDSRDL.fig');
-exportgraphics(gcf,'dive_spacing_CTDSRDL.png','Resolution',300);
+saveas(gcf,'dive_spacing_CTDSRDL_light.fig');
+exportgraphics(gcf,'dive_spacing_CTDSRDL_light.png','Resolution',300);
 
 close all
 
