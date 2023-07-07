@@ -31,7 +31,7 @@ figure;
 
 ax1 = subplot(3,3,[4 5 7 8]);
 
-imagesc(binned.Xedges,binned.Yedges,binned.N.');
+imagesc(binned.Xedges+2.5/2,binned.Yedges+2.5/2,binned.N.');
 set(gca,'ydir','normal','FontSize',14);
 
 h = colorbar; 

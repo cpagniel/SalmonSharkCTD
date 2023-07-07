@@ -4,7 +4,7 @@
 
 %% Loop through all dates.
 
-for i = 1:length(sst.time)
+for i = [1 22 34] %:length(sst.time)
 
     %% Create figure and projection.
 
@@ -35,7 +35,7 @@ for i = 1:length(sst.time)
     for j = 1:length(argos.date)
         if datetime(year(argos.date(j)),month(argos.date(j)),day(argos.date(j)),'TimeZone','UTC') == sst.time(i)
             if argos.qual(j) >= 1
-                h1 = m_plot(argos.lon(j),argos.lat(j),'ko','markersize',2,'markerfacecolor','k');
+                h1 = m_plot(argos.lon(j),argos.lat(j),'ko','markersize',6,'markerfacecolor','k','linewidth',1);
                 cnt1 = 1;
 
                 hold on
@@ -51,7 +51,7 @@ for i = 1:length(sst.time)
     cnt2 = 0;
     for j = 1:length(shark.corr.datetime)
         if datetime(year(shark.corr.datetime(j)),month(shark.corr.datetime(j)),day(shark.corr.datetime(j)),'TimeZone','UTC') == sst.time(i)
-            h2 = m_plot(shark.corr.lon(j),shark.corr.lat(j),'ko','MarkerFaceColor','w');
+            h2 = m_plot(shark.corr.lon(j),shark.corr.lat(j),'kp','markersize',12,'MarkerFaceColor','y','linewidth',1);
             cnt2 = 1;
 
             hold on

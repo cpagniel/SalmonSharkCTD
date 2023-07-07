@@ -11,7 +11,7 @@ for i = 1:size(vis.p,2)
     ind = ~isnan(vis.p(:,i));
     if sum(ind) ~= 0
         oce.mld(i,:) = mld(vis.p(ind,i), vis.CT(ind,i), vis.SA(ind,i), 'metric', 'threshold', ...
-            'tthresh', 0.02, 'dthresh', 0.03); % m
+            'dthresh', 0.03); % m
     end
 end
 clear i 
@@ -22,7 +22,7 @@ clear ind
 % This is to compute R_d_MLD.
 
 tmp.x = om.x(:); tmp.x = meshgrid(tmp.x,1);
-tmp.mld = oce.mld(:,1);
+tmp.mld = oce.mld(:,3);
 
 ind = ~isnan(tmp.mld);
 

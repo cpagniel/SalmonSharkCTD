@@ -78,7 +78,7 @@ h = colorbar;
 tmp = getPyPlot_cMap('afmhot');
 colormap([1, 1, 1; tmp(3:120,:)])
 ylabel(h,'Number of Profiles','FontSize',16);
-caxis([0 100]);
+caxis([0 500]);
 
 xlabel('Time Between Profiles (hr)'); ylabel('Distance Between Profiles (km)');
 xlim([0 30]); ylim([0 100]);

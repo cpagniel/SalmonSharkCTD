@@ -14,7 +14,7 @@ cmocean('balance',16); caxis([-4 4]);
 
 hold on
 
-m1 = plot(om.x,oce.mld(:,1),'k-','LineWidth',2); % MLD
+m1 = plot(om.x,oce.mld(:,3),'k-','LineWidth',2); % MLD
 
 xlabel('Along-Track Distance (km)','FontSize',24); ylabel('Depth (m)','FontSize',24);
 set(gca,'ydir','reverse','FontSize',18);
@@ -39,7 +39,7 @@ cmocean('curl',16); caxis([-2 2]);
 
 hold on
 
-m1 = plot(om.x,oce.mld(:,1),'k-','LineWidth',2); % MLD
+m1 = plot(om.x,oce.mld(:,3),'k-','LineWidth',2); % MLD
 
 xlabel('Along-Track Distance (km)','FontSize',24); ylabel('Depth (m)','FontSize',24);
 set(gca,'ydir','reverse','FontSize',18);
