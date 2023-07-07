@@ -1,2 +1,2 @@
 # SalmonSharkCTD
-Code for Pagniello et al. (in prep) for Nature Communications
+Code for Pagniello et al. submitted to Nature Communications
