@@ -78,6 +78,7 @@ clear sat
 run load_metaPAT_sharkCTD
 run load_recoveredPAT_sharkCTD
 run load_SPOT_interpPFL_sharkCTD
+run plot_SPOTprofiles_map_sharkCTD
 run plot_SPOT_interpPFL_map_sharkCTD
 
 % Depth Correction, Dive Detection and Profile Extraction from Recovered
@@ -102,6 +103,8 @@ run calc_dive_spacing_CTDSRDL_sharkCTD
 run plot_dive_spacing_CTDSRDL_sharkCTD
 run calc_dive_spacing_PAT_sharkCTD
 run plot_dive_spacing_PAT_sharkCTD
+run plot_CTDSRDL_map_sharkCTD
+run plot_PATrec_map_sharkCTD
 
 clear oce
 clear rossby

@@ -101,7 +101,8 @@ clear tmp
 
 figure('Position',[720 115 1136 420]);
 
-bar(2002:1:2019,[binned.year.sharkPAT_PDT; binned.year.sharkCTD; binned.year.all].','hist');
+% bar(2002:1:2019,[binned.year.sharkPAT_PDT; binned.year.sharkCTD; binned.year.all].','hist');
+bar(2002:1:2019,[binned.year.sharkCTD; binned.year.all].','hist');
 
 set(gca,'FontSize',20);
 xlabel('Year','FontSize',24);
@@ -109,18 +110,19 @@ ylabel('Number of Profiles','FontSize',24);
 
 hold on
 
-colororder({'k','k'})
+colororder(cmap(2,:))
 yyaxis right
 
 % number of tagged sharks per year
-plot(2002:1:2019,cnt_SPOT,'o--','LineWidth',2);
+plot(2002:1:2019,cnt_SPOT,'o--','LineWidth',2,'MarkerFaceColor',cmap(2,:),'MarkerSize',10);
 
 hold on
 
-plot(2002:1:2019,cnt_PDT,'*-','LineWidth',2);
+% plot(2002:1:2019,cnt_PDT,'*-','LineWidth',2);
 ylabel('Number of Tagged Sharks','FontSize',24);
 
-legend('PAT','CTD-SRDL','WOD','SPOT','SPOT+PAT','NumColumns',2);
+% legend('PAT','CTD-SRDL','WOD','SPOT','SPOT+PAT','NumColumns',2);
+legend('Potential from CTD-SRDL Fin Tags','Available in WOD','NumColumns',1);
 
 xlim([2001 2020]);
 colormap(cmap);

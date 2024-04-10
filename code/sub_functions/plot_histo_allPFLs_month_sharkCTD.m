@@ -84,7 +84,8 @@ clear tmp
 
 figure('Position',[720 115 1136 420]);
 
-bar(1:1:12,[binned.month.sharkPAT_PDT; binned.month.sharkCTD; binned.month.all].','hist');
+% bar(1:1:12,[binned.month.sharkPAT_PDT; binned.month.sharkCTD; binned.month.all].','hist');
+bar(1:1:12,[binned.month.sharkCTD; binned.month.all].','hist');
 
 set(gca,'FontSize',20);
 xlabel('Month','FontSize',24); 
@@ -92,18 +93,19 @@ ylabel('Number of Profiles','FontSize',24);
 
 hold on
 
-colororder({'k','k'})
+colororder(cmap(2,:))
 yyaxis right
 
 % number of tagged sharks per month
-plot(1:1:12,cnt_SPOT,'o--','LineWidth',2);
+plot(1:1:12,cnt_SPOT,'o--','LineWidth',2,'MarkerFaceColor',cmap(2,:),'MarkerSize',10);
 
 hold on
 
-plot(1:1:12,cnt_PDT,'*-','LineWidth',2);
+% plot(1:1:12,cnt_PDT,'*-','LineWidth',2);
 ylabel('Number of Tagged Sharks','FontSize',24);
 
-legend('PAT','CTD-SRDL','WOD','SPOT','SPOT+PAT','NumColumns',2,'Location','northwest');
+% legend('PAT','CTD-SRDL','WOD','SPOT','SPOT+PAT','NumColumns',2,'Location','northwest');
+legend('Potential from CTD-SRDL Fin Tags','Available in WOD','NumColumns',1,'Location','northwest');
 
 xlim([0 13]);
 colormap(cmap);
